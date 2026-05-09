@@ -1,111 +1,68 @@
 # Cinema Booking System
 
-A console-based Java application developed using Object-Oriented Programming concepts.
-The system allows customers to view movies, select seats, book tickets, print receipts, and cancel bookings through a simple menu-driven interface.
+A console-based Java application for booking cinema tickets.
+Customers can view available movies, select seats, receive printed receipts, and cancel bookings.
 
 ---
 
-## 👤 Student Information
+## Group Members
 
-| Name    | CMS/ID      | Section |
-| ------- | ----------- | ------- |
-| Haseeba | 023-25-0044 | D       |
-
----
-
-## Project Purpose
-
-The main purpose of this project is to solve the problem of manual cinema ticket booking by providing a simple and efficient console-based system. The application manages seat booking, receipt generation, cancellation, and booking records using Java.
+| Name    | CMS/ID        | Section |
+|---------|---------------|---------|
+| Haseeba | 023-25-0044   | D       |
 
 ---
 
-## OOP Concepts Used
+## Purpose
 
-| OOP Concept        | Implementation                           |
-| ------------------ | ---------------------------------------- |
-| Abstraction        | `User` abstract class                    |
-| Inheritance        | `Customer extends User`                  |
-| Encapsulation      | Private variables with getters           |
-| Polymorphism       | `printReceipt()` method                  |
-| Interface          | `Printable` interface                    |
-| Collections        | `ArrayList` used for data storage        |
-| Exception Handling | Handles invalid input and booking errors |
-| File Handling      | Bookings saved in `bookings.txt`         |
+This system solves the problem of manual cinema seat booking by providing a simple, menu-driven console application. Users can browse movies, pick seats, get a receipt, and cancel if needed.
 
 ---
 
-## Main Classes
+## OOP Features Used
 
-* `User` → Abstract base class
-* `Customer` → Stores customer details
-* `Movie` → Stores movie information
-* `Seat` → Manages seat booking status
-* `Booking` → Handles booking and receipt printing
-* `CinemaService` → Main booking management system
-* `InputHelper` → Handles safe user input
-* `Project` → Main driver class
+| Concept | Where Used |
+|---------|-----------|
+| Abstract Class | `User` — base class with abstract `showDetails()` |
+| Inheritance | `Customer extends User` |
+| Interface | `Printable` — implemented by `Booking` |
+| Encapsulation | Private fields with getters/setters in all classes |
+| Polymorphism | `printReceipt()` called via `Printable` reference |
+| Collections | `ArrayList` for movies, seats, and bookings |
+| File I/O | Bookings saved to `bookings.txt` |
+| Exception Handling | Invalid seats, duplicate bookings, cancellation errors |
 
 ---
 
-## Features
+## Core Modules
 
-* View available movies
-* Display seat layout
-* Book cinema tickets
-* Automatic receipt generation
-* 15% discount for booking 3 or more seats
-* Cancel booking feature
-* Prevent duplicate seat booking
-* Save booking records in file
-* Input validation using exception handling
+- **`User` / `Customer`** — abstract user model with customer details
+- **`Movie` / `Seat`** — movie info and seat availability tracking
+- **`Booking`** — handles booking logic, pricing, discount, and receipt printing
+- **`CinemaService`** — main service layer managing movies, bookings, and file saving
+- **`InputHelper`** — validates all user input (no crashes on bad input)
 
 ---
 
 ## How to Run
 
-### Requirements
-
-* Java JDK 8 or above
-* IntelliJ IDEA or any Java IDE
-
----
-
-### Compile the Program
+**Requirements:** JDK 8 or above
 
 ```bash
 javac Project.java
-```
-
-### Run the Program
-
-```bash
 java Project
 ```
 
----
-
-## Project Files
-
-```text
-Project.java
-README.md
-bookings.txt
-```
+No external libraries required. `bookings.txt` is auto-created on first booking.
 
 ---
 
-##  Demo Video
+## Demo Video
 
-YouTube video link will be added here.
-
----
-
-##  GitHub Repository
-
-GitHub repository link will be added here.
+> YouTube link — coming soon
 
 ---
 
-## Conclusion
+## GitHub Repository
 
-This project demonstrates the practical implementation of Object-Oriented Programming concepts in Java. It provides a simple and efficient cinema booking system with features like booking management, cancellation, receipt generation, and file handling.
+https://github.com/haseebacreativity786-cmyk/Cinema-Booking-OOP
