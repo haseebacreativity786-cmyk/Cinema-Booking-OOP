@@ -1,4 +1,4 @@
-# 🎬 Cinema Booking System
+# Cinema Booking System
 
 A console-based Java application developed using Object-Oriented Programming concepts.
 The system allows customers to view movies, select seats, book tickets, print receipts, and cancel bookings through a simple menu-driven interface.
@@ -13,13 +13,13 @@ The system allows customers to view movies, select seats, book tickets, print re
 
 ---
 
-## 🎯 Project Purpose
+## Project Purpose
 
 The main purpose of this project is to solve the problem of manual cinema ticket booking by providing a simple and efficient console-based system. The application manages seat booking, receipt generation, cancellation, and booking records using Java.
 
 ---
 
-## 🧩 OOP Concepts Used
+## OOP Concepts Used
 
 | OOP Concept        | Implementation                           |
 | ------------------ | ---------------------------------------- |
@@ -34,7 +34,7 @@ The main purpose of this project is to solve the problem of manual cinema ticket
 
 ---
 
-## 📦 Main Classes
+## Main Classes
 
 * `User` → Abstract base class
 * `Customer` → Stores customer details
@@ -47,7 +47,7 @@ The main purpose of this project is to solve the problem of manual cinema ticket
 
 ---
 
-## ⚙️ Features
+## Features
 
 * View available movies
 * Display seat layout
@@ -61,7 +61,7 @@ The main purpose of this project is to solve the problem of manual cinema ticket
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ### Requirements
 
@@ -84,7 +84,7 @@ java Project
 
 ---
 
-## 📁 Project Files
+## Project Files
 
 ```text
 Project.java
@@ -106,6 +106,6 @@ GitHub repository link will be added here.
 
 ---
 
-## 📌 Conclusion
+## Conclusion
 
 This project demonstrates the practical implementation of Object-Oriented Programming concepts in Java. It provides a simple and efficient cinema booking system with features like booking management, cancellation, receipt generation, and file handling.
