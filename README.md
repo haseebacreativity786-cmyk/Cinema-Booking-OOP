@@ -94,13 +94,13 @@ bookings.txt
 
 ---
 
-## 🎥 Demo Video
+##  Demo Video
 
 YouTube video link will be added here.
 
 ---
 
-## 🔗 GitHub Repository
+##  GitHub Repository
 
 GitHub repository link will be added here.
 
