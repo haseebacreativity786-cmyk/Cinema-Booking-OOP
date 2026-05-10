@@ -4,6 +4,7 @@ import java.io.*;
 interface Printable {
     void printReceipt();
 }
+
 abstract class User {
     private String name;
     private String phoneNumber;
@@ -14,9 +15,9 @@ abstract class User {
     }
     public String getName() { return name; }
     public String getPhoneNumber() { return phoneNumber; }
-
     public abstract void showDetails();
 }
+
 class Customer extends User {
     private String email;
     public Customer(String name, String phoneNumber, String email) {
@@ -29,6 +30,7 @@ class Customer extends User {
         System.out.println("Email: " + email);
     }
 }
+
 class Seat {
     private int seatNumber;
     private boolean isBooked;
@@ -41,6 +43,7 @@ class Seat {
     public boolean isBooked() { return isBooked; }
     public void setBooked(boolean booked) { isBooked = booked; }
 }
+
 class Movie {
     private String title;
     private String showTime;
@@ -57,6 +60,7 @@ class Movie {
     public String getTitle() { return title; }
     public String getShowTime() { return showTime; }
     public ArrayList<Seat> getSeats() { return seats; }
+
     public void displaySeats() {
         System.out.println("\n--- Seat Layout for " + title + " ---");
         for (Seat s : seats) {
@@ -67,6 +71,7 @@ class Movie {
         System.out.println();
     }
 }
+
 class Booking implements Printable {
     private User customer;
     private Movie movie;
@@ -75,6 +80,11 @@ class Booking implements Printable {
     private double finalPrice;
     private double discount;
     private boolean cancelled;
+
+    // ✅ New fields for cancellation
+    private double cancellationFee;
+    private double refundAmount;
+
     public Booking(User customer, Movie movie, ArrayList<Integer> seats) {
         this.customer = customer;
         this.movie = movie;
@@ -82,12 +92,14 @@ class Booking implements Printable {
         this.cancelled = false;
         calculatePrice();
     }
+
     private void calculatePrice() {
         double pricePerSeat = 500;
         originalPrice = seats.size() * pricePerSeat;
         discount = (seats.size() >= 3) ? originalPrice * 0.15 : 0;
         finalPrice = originalPrice - discount;
     }
+
     public User getCustomer() { return customer; }
     public Movie getMovie() { return movie; }
     public ArrayList<Integer> getSeats() { return seats; }
@@ -95,13 +107,35 @@ class Booking implements Printable {
     public double getFinalPrice() { return finalPrice; }
     public double getDiscount() { return discount; }
     public boolean isCancelled() { return cancelled; }
+    public double getRefundAmount() { return refundAmount; }
+
+    // ✅ Cancel with 10% cancellation fee
     public void cancel() {
         this.cancelled = true;
+
+        // 10% cancellation fee on the final paid amount
+        cancellationFee = finalPrice * 0.10;
+        refundAmount = finalPrice - cancellationFee;
+
         for (int seatNum : seats) {
             movie.getSeats().get(seatNum - 1).setBooked(false);
         }
-        System.out.println("Booking cancelled for " + customer.getName() + " | Movie: " + movie.getTitle());
+
+        System.out.println("\n==================================");
+        System.out.println("       CANCELLATION SUMMARY");
+        System.out.println("==================================");
+        System.out.println("Customer  : " + customer.getName());
+        System.out.println("Movie     : " + movie.getTitle());
+        System.out.println("Seats     : " + seats);
+        System.out.println("----------------------------------");
+        System.out.printf("Amount Paid       : Rs. %.2f%n", finalPrice);
+        System.out.printf("Cancellation Fee  : Rs. %.2f (10%%)%n", cancellationFee);
+        System.out.printf("Refund Amount     : Rs. %.2f%n", refundAmount);
+        System.out.println("==================================");
+        System.out.println("Your refund will be processed soon.");
+        System.out.println("==================================");
     }
+
     @Override
     public void printReceipt() {
         System.out.println("\n=================================");
@@ -124,19 +158,23 @@ class Booking implements Printable {
         System.out.println("Thank you for choosing our cinema!");
         System.out.println("==================================");
     }
+
     public String toString() {
         String status = cancelled ? "[CANCELLED]" : "[ACTIVE]";
         return status + " " + customer.getName() + " | " + movie.getTitle() + " | Seats: " + seats;
     }
 }
+
 class CinemaService {
     private ArrayList<Movie> movies;
     private ArrayList<Booking> allBookings;
+
     public CinemaService() {
         movies = new ArrayList<>();
         allBookings = new ArrayList<>();
         setupMovies();
     }
+
     private void setupMovies() {
         movies.add(new Movie("Batman",         "10:00 AM", 20));
         movies.add(new Movie("Inception",      "12:00 PM", 20));
@@ -147,6 +185,7 @@ class CinemaService {
         movies.add(new Movie("Fast & Furious", "10:00 PM", 20));
         movies.add(new Movie("Titanic",        "11:30 PM", 20));
     }
+
     public void showMovies() {
         System.out.println("\n--- Available Movies ---");
         for (int i = 0; i < movies.size(); i++) {
@@ -154,39 +193,35 @@ class CinemaService {
                     " (" + movies.get(i).getShowTime() + ")");
         }
     }
+
     public Movie getMovie(int index) {
         if (index >= 0 && index < movies.size()) return movies.get(index);
         return null;
     }
+
     public void processBooking(User user, Movie movie, ArrayList<Integer> seatNumbers) throws Exception {
         ArrayList<Seat> movieSeats = movie.getSeats();
+
         ArrayList<Integer> invalidSeats = new ArrayList<>();
         for (int num : seatNumbers) {
-            if (num < 1 || num > movieSeats.size()) {
-                invalidSeats.add(num);
-            }
+            if (num < 1 || num > movieSeats.size()) invalidSeats.add(num);
         }
-        if (!invalidSeats.isEmpty()) {
-            throw new Exception("Invalid seat numbers: " + invalidSeats);
-        }
+        if (!invalidSeats.isEmpty()) throw new Exception("Invalid seat numbers: " + invalidSeats);
+
         ArrayList<Integer> alreadyBooked = new ArrayList<>();
         for (int num : seatNumbers) {
-            if (movieSeats.get(num - 1).isBooked()) {
-                alreadyBooked.add(num);
-            }
+            if (movieSeats.get(num - 1).isBooked()) alreadyBooked.add(num);
         }
-        if (!alreadyBooked.isEmpty()) {
-            throw new Exception("These seats are already booked: " + alreadyBooked);
-        }
-        for (int num : seatNumbers) {
-            movieSeats.get(num - 1).setBooked(true);
-        }
+        if (!alreadyBooked.isEmpty()) throw new Exception("These seats are already booked: " + alreadyBooked);
+
+        for (int num : seatNumbers) movieSeats.get(num - 1).setBooked(true);
+
         Booking b = new Booking(user, movie, seatNumbers);
         allBookings.add(b);
         saveBookingToFile(b);
-
         System.out.println("\nBooking successful!");
     }
+
     public void showAllBookings() {
         if (allBookings.isEmpty()) {
             System.out.println("No bookings yet.");
@@ -196,18 +231,18 @@ class CinemaService {
             System.out.println((i + 1) + ". " + allBookings.get(i));
         }
     }
+
     public void cancelBooking(int index) throws Exception {
-        if (index < 0 || index >= allBookings.size()) {
-            throw new Exception("Invalid booking number!");
-        }
+        if (index < 0 || index >= allBookings.size()) throw new Exception("Invalid booking number!");
         Booking b = allBookings.get(index);
-        if (b.isCancelled()) {
-            throw new Exception("Booking is already cancelled!");
-        }
+        if (b.isCancelled()) throw new Exception("Booking is already cancelled!");
         b.cancel();
         saveBookingToFile(b);
-    }public ArrayList<Booking> getBookings() { return allBookings; }
- private void saveBookingToFile(Booking b) {
+    }
+
+    public ArrayList<Booking> getBookings() { return allBookings; }
+
+    private void saveBookingToFile(Booking b) {
         try (PrintWriter out = new PrintWriter(new FileWriter("bookings.txt", true))) {
             out.println(b.toString());
         } catch (IOException e) {
@@ -217,20 +252,17 @@ class CinemaService {
 }
 class InputHelper {
     private Scanner sc;
-
-    public InputHelper(Scanner sc) {
-        this.sc = sc;
-    }
+    public InputHelper(Scanner sc) { this.sc = sc; }
     public int getInt(String prompt) {
         while (true) {
             System.out.print(prompt);
             try {
-                int val = Integer.parseInt(sc.nextLine().trim());
-                return val;
+                return Integer.parseInt(sc.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input! Please enter a number.");
             }
-        }}
+        }
+    }
     public String getString(String prompt) {
         System.out.print(prompt);
         return sc.nextLine().trim();
@@ -239,21 +271,22 @@ class InputHelper {
         while (true) {
             System.out.print(prompt);
             String email = sc.nextLine().trim();
-            if (email.contains("@") && email.contains(".")) {
-                return email;
-            }
+            if (email.contains("@") && email.contains(".")) return email;
             System.out.println("Invalid email! Please enter a valid email (e.g. abc@gmail.com).");
         }
     }
 }
+
 public class Project {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        InputHelper input = new InputHelper(sc); 
+        InputHelper input = new InputHelper(sc);
         CinemaService cinema = new CinemaService();
+
         System.out.println("=============================");
         System.out.println("   Welcome to Cinema System  ");
         System.out.println("=============================");
+
         boolean exit = false;
         while (!exit) {
             System.out.println("\n1. View Movies");
@@ -261,51 +294,50 @@ public class Project {
             System.out.println("3. View All Bookings");
             System.out.println("4. Cancel Booking");
             System.out.println("5. Exit");
+
             int choice = input.getInt("Choose: ");
+
             switch (choice) {
                 case 1:
                     cinema.showMovies();
                     break;
+
                 case 2:
                     String name  = input.getString("Enter your name: ");
                     String phone = input.getString("Enter your phone: ");
                     String email = input.getEmail("Enter your email: ");
                     User user = new Customer(name, phone, email);
+
                     cinema.showMovies();
                     int m = input.getInt("Select movie (number): ") - 1;
                     Movie movie = cinema.getMovie(m);
-                    if (movie == null) {
-                        System.out.println("Invalid movie selection!");
-                        break;
-                    }
+                    if (movie == null) { System.out.println("Invalid movie selection!"); break; }
+
                     movie.displaySeats();
                     int count = input.getInt("How many seats to book: ");
-                    if (count <= 0) {
-                        System.out.println("Seat count must be at least 1.");
-                        break;
-                    }
+                    if (count <= 0) { System.out.println("Seat count must be at least 1."); break; }
+
                     ArrayList<Integer> seats = new ArrayList<>();
                     for (int i = 0; i < count; i++) {
-                        int seatNum = input.getInt("Enter seat number " + (i + 1) + ": ");
-                        seats.add(seatNum);
+                        seats.add(input.getInt("Enter seat number " + (i + 1) + ": "));
                     }
+
                     try {
                         cinema.processBooking(user, movie, seats);
-                        // Auto print receipt using Printable interface
-                        Booking lastBooking = cinema.getBookings()
-                                .get(cinema.getBookings().size() - 1);
+                        Booking lastBooking = cinema.getBookings().get(cinema.getBookings().size() - 1);
                         lastBooking.printReceipt();
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
+
                 case 3:
                     cinema.showAllBookings();
                     break;
+
                 case 4:
                     cinema.showAllBookings();
                     if (cinema.getBookings().isEmpty()) break;
-
                     int bookingNum = input.getInt("Enter booking number to cancel: ") - 1;
                     try {
                         cinema.cancelBooking(bookingNum);
@@ -314,10 +346,12 @@ public class Project {
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
+
                 case 5:
                     exit = true;
                     System.out.println("Thankyou For choosing us!");
                     break;
+
                 default:
                     System.out.println("Invalid option. Try again.");
             }
