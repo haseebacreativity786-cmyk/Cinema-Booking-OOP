@@ -176,6 +176,6 @@ https://drive.google.com/file/d/1nkzI3Lhmkj6BklvBmoAMUd8Z1geRKU5A/view?usp=shari
 
 ---
 
-## 🔗 GitHub Repository
+## GitHub Repository
 
 https://github.com/haseebacreativity786-cmyk/Cinema-Booking-OOP
