@@ -1,6 +1,6 @@
 # Cinema Booking System
 
-A console-based Java application that allows customers to view movies, book seats, receive printed receipts, and cancel bookings — all through a simple text menu.
+A console based Java application that allows customers to view movies, book seats, receive printed receipts, and cancel bookings all through a simple text menu.
 
 ---
 
@@ -14,7 +14,7 @@ A console-based Java application that allows customers to view movies, book seat
 
 ## Purpose: What problem does this solve? Who are the users?
 
-**Problem:** Manual cinema seat booking is slow and error-prone. There is no easy way to check seat availability, apply discounts, or keep a record of bookings.
+**Problem:** Manual cinema seat booking is slow and error prone. There is no easy way to check seat availability, apply discounts, or keep a record of bookings.
 
 **Solution:** This system automates the cinema booking process through a console menu. It tracks seat availability in real time, applies discounts automatically, prints receipts, handles cancellations with refund calculation, and saves all bookings to a file.
 
@@ -28,12 +28,12 @@ A console-based Java application that allows customers to view movies, book seat
 
 | Class | Role |
 |-------|------|
-| `User` | Abstract base class — stores name and phone number |
-| `Customer` | Extends `User` — adds email, represents a real customer |
-| `Seat` | Represents one seat — tracks seat number and booked status |
+| `User` | Abstract base class stores name and phone number |
+| `Customer` | Extends `User` adds email, represents a real customer |
+| `Seat` | Represents one seat tracks seat number and booked status |
 | `Movie` | Holds movie title, showtime, and list of seats |
-| `Booking` | Handles booking logic — pricing, discount, receipt printing, cancellation |
-| `CinemaService` | Main service layer — manages all movies and bookings, saves to file |
+| `Booking` | Handles booking logic pricing, discount, receipt printing, cancellation |
+| `CinemaService` | Main service layer manages all movies and bookings, saves to file |
 | `InputHelper` | Handles and validates all user input from console |
 
 **Flow:**
