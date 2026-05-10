@@ -1,6 +1,6 @@
 # Cinema Booking System
 
-A console based Java application that allows customers to view movies, book seats, receive printed receipts, and cancel bookings all through a simple text menu.
+A console-based Java application that allows customers to view movies, book seats, receive printed receipts, and cancel bookings — all through a simple text menu.
 
 ---
 
@@ -14,26 +14,26 @@ A console based Java application that allows customers to view movies, book seat
 
 ## Purpose: What problem does this solve? Who are the users?
 
-**Problem:** Manual cinema seat booking is slow and error prone. There is no easy way to check seat availability, apply discounts, or keep a record of bookings.
+**Problem:** Manual cinema seat booking is slow and error-prone. There is no easy way to check seat availability, apply discounts, or keep a record of bookings.
 
-**Solution:** This system automates the cinema booking process through a console menu. It tracks seat availability in real time, applies discounts automatically, prints receipts, and saves all bookings to a file.
+**Solution:** This system automates the cinema booking process through a console menu. It tracks seat availability in real time, applies discounts automatically, prints receipts, handles cancellations with refund calculation, and saves all bookings to a file.
 
 **Users:**
-- **Customers** people who want to book, view, or cancel cinema tickets
-- **Cinema Staff** can view all bookings from the saved file (`bookings.txt`)
+- **Customers**  people who want to book, view, or cancel cinema tickets
+- **Cinema Staff**  can view all bookings from the saved file (`bookings.txt`)
 
 ---
 
-## Core Modules Main Classes & Their Roles
+## Core Modules: Main Classes & Their Roles
 
 | Class | Role |
 |-------|------|
-| `User` | Abstract base class stores name and phone number |
-| `Customer` | Extends `User` adds email, represents a real customer |
-| `Seat` | Represents one seat tracks seat number and booked status |
+| `User` | Abstract base class — stores name and phone number |
+| `Customer` | Extends `User` — adds email, represents a real customer |
+| `Seat` | Represents one seat — tracks seat number and booked status |
 | `Movie` | Holds movie title, showtime, and list of seats |
-| `Booking` | Handles booking logic pricing, discount, receipt printing, cancellation |
-| `CinemaService` | Main service layer manages all movies and bookings, saves to file |
+| `Booking` | Handles booking logic — pricing, discount, receipt printing, cancellation |
+| `CinemaService` | Main service layer — manages all movies and bookings, saves to file |
 | `InputHelper` | Handles and validates all user input from console |
 
 **Flow:**
@@ -43,6 +43,49 @@ main() → CinemaService → Movie → Seat
                       → Customer (extends User)
                       → InputHelper (validates input)
 ```
+
+---
+
+## What This System Does Full Feature List
+
+### 1. View Movies
+- Displays a numbered list of 8 available movies with their showtimes
+- Movies: Batman, Inception, Avatar 2, Interstellar, Joker, Spiderman, Fast & Furious, Titanic
+
+### 2. Book a Ticket
+- Customer enters their **name, phone number, and email**
+- Email is validated must contain `@` and `.`
+- Customer selects a movie and views the **live seat layout**
+  - Available seats shown as `[1]`, booked seats shown as `[X]`
+- Customer enters seat numbers one by one
+- System checks for invalid or already-booked seats and shows clear error messages
+
+> **Discount Feature:** If a customer books **3 or more seats**, a **15% discount** is automatically applied on the total price.
+>
+> Example: 3 seats × Rs. 500 = Rs. 1500 → Discount Rs. 225 → **Final Price Rs. 1275**
+
+- Receipt is printed automatically showing original price, discount, and final price
+
+### 3. View All Bookings
+- Displays all bookings with status: `[ACTIVE]` or `[CANCELLED]`
+- Shows customer name, movie, and seat numbers
+
+### 4. Cancel a Booking
+
+>  **Cancellation Fee Feature:** When a booking is cancelled, a **10% cancellation fee** is deducted from the amount paid. The remaining amount is returned as refund.
+>
+> Example: Paid Rs. 1000 → Cancellation Fee Rs. 100 (10%) → **Refund Rs. 900**
+
+- Cancelled seats are freed up automatically for other customers to book
+- A cancellation summary is printed showing fee deducted and refund amount
+
+### 5. Auto Save to File
+- Every booking and cancellation is automatically saved to `bookings.txt`
+- No setup needed file is created automatically
+
+### 6. Input Validation
+- Wrong input (letters instead of numbers) never crashes the program
+- Email format is validated before accepting
 
 ---
 
@@ -106,17 +149,15 @@ Every booking (and cancellation) is automatically saved to `bookings.txt` using 
 
 **Requirements:** JDK 8 or above (no external libraries needed)
 
-### Step 1: Compile
 ```bash
+# Step 1 — Compile
 javac Project.java
-```
 
-### Step 2: Run
-```bash
+# Step 2 — Run
 java Project
 ```
 
-### Step 3: Use the Menu
+**Menu:**
 ```
 1. View Movies
 2. Book Ticket
@@ -125,7 +166,7 @@ java Project
 5. Exit
 ```
 
-> No database or config file needed. `bookings.txt` is auto-created on first booking.
+> No database or config file needed. `bookings.txt` is auto created on first booking.
 
 ---
 
@@ -135,6 +176,6 @@ java Project
 
 ---
 
-## GitHub Repository
+## 🔗 GitHub Repository
 
 https://github.com/haseebacreativity786-cmyk/Cinema-Booking-OOP
